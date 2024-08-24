@@ -1,38 +1,467 @@
-.App {
-  text-align: center;
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* ############# RESET DONE ############# */
+
+:root {
+  --lime: hsl(61, 70%, 52%);
+  --red: hsl(4, 69%, 50%);
+  --white: hsl(0, 0%, 100%);
+  --slate-100: hsl(202, 86%, 94%);
+  --slate-300: hsl(203, 41%, 72%);
+  --slate-500: hsl(200, 26%, 54%);
+  --slate-700: hsl(200, 24%, 40%);
+  --slate-800: #1a303f;
+  --slate-900: hsl(202, 55%, 16%);
+  --slate-1000: #132430;
+}
+
+body {
+  background-color: var(--slate-100);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: var(--slate-900);
+}
+
+p {
+  font-size: 1rem;
+}
+
+.main-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  width: 65rem;
+  min-height: 40rem;
+  overflow: hidden;
+  background-color: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  height: 0;
+  font-weight: 100;
+  overflow: hidden;
+  color: var(--red);
+  transition: height 0.5s ease-in-out;
+}
+
+.error-message.show {
+  /* background-color: red; */
+  height: 1.5rem;
+}
+
+.fields {
+  height: 100%;
+  width: 50%;
+}
+
+.preview {
+  width: 50%;
+  background-color: var(--slate-800);
+  border-bottom-left-radius: 6rem;
+}
+
+.fields {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+}
+
+.fields .header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+
+  & p {
+    text-decoration: underline;
+    color: var(--slate-700);
+  }
+}
+
+.calculate {
+  background-color: var(--lime);
+  width: 17.5rem;
+
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+
+  gap: 0.75rem;
+
+  border-radius: 100rem;
+  padding-block: 1rem;
+  border: 0;
+  color: var(--slate-900);
+  font-weight: bold;
+}
+
+.calculate:hover {
+  cursor: pointer;
+  background-color: hsla(61, 70%, 52%, 0.5);
+}
+
+.field-section {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 2.5rem;
+
+  justify-content: space-between;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+  align-items: start;
+}
+
+.field label {
+  color: var(--slate-700);
+}
+
+.input {
+  width: 100%;
+  position: relative;
+}
+
+.input .symbol,
+.input .symbol-mid {
+  height: 100%;
+  padding-inline: 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--slate-100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: var(--slate-700);
+  font-size: 1.15rem;
+  /* color: var(--slate-500); */
+}
+
+.mid-fields {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.input .symbol-mid {
+  right: 0;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.input .symbol {
+  left: 0;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.input input:focus + .symbol,
+.input input:focus + .symbol-mid {
+  background-color: var(--lime); /* Change this to your desired color */
+  color: var(--slate-900);
+}
+
+input.error-input + .symbol,
+input.error-input + .symbol-mid,
+input.error-input:focus + .symbol,
+input.error-input:focus + .symbol-mid {
+  background-color: var(--red);
+  color: var(--white);
+}
+
+/* Hide the spinner controls for input type number */
+
+/* Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Optional: Remove spinners in other browsers that support the standard 'appearance' property */
+input[type="number"] {
+  appearance: textfield;
+}
+
+.field input,
+.radio-field {
+  width: 100%;
+  padding: 0.75rem;
+  outline: 1px var(--slate-700) solid;
+  /* outline-offset: -0.5px; */
+
+  border: 0;
+  border-radius: 0.25rem;
+  font-size: 1.15rem;
+}
+
+input.error-input {
+  outline: 1px solid var(--red);
+}
+
+.field .input-right {
+  padding-left: 4.5rem;
+}
+
+.field .input-left {
+  padding-right: 4.5rem;
+}
+
+input,
+.input .symbol,
+.input .symbol-mid,
+.radio-field,
+.calculate {
+  transition: all 0.15s ease-in-out;
+  font-weight: bold;
+}
+
+input:focus {
+  outline: 2px solid var(--lime);
+}
+input.error-input:focus {
+  outline: 2px solid var(--red);
+}
+
+.radio-buttons .field {
+  gap: 0.75rem;
+  font-weight: bold;
+}
+
+.radio-field {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.radio-field:hover {
+  cursor: pointer;
+}
+
+.radio-large {
+  --radio-radius: 17.5px;
+  width: var(--radio-radius);
+  height: var(--radio-radius);
+  border-radius: 50%;
+  background-color: none;
+  border: 1.5px solid var(--slate-700);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2.5px;
+}
+
+.radio-small {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--slate-700);
+}
+
+.radio-active .radio-large {
+  border-color: var(--lime);
+}
+
+.radio-active .radio-small {
+  background-color: var(--lime);
+}
+
+.radio-active {
+  background-color: rgba(247, 247, 30, 0.1);
+  outline-color: var(--lime);
+}
+
+.radio-field:hover {
+  outline-color: var(--lime);
+}
+
+.waiting {
+  height: 100%;
+  width: 100%;
+  padding-inline: 2rem;
+}
+
+.waiting,
+.waiting-msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.waiting {
+  gap: 1rem;
+}
+
+.waiting-msg {
+  gap: 0.5rem;
+  text-align: center;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.waiting-msg p {
+  color: var(--slate-300);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header p {
+  cursor: pointer;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+}
+
+.results h2 {
+  color: white;
+}
+
+.results p {
+  color: var(--slate-300);
+}
+
+.results-main {
+  position: relative;
+}
+
+.results .description {
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.results-preview-1 {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 1.5rem;
+  z-index: 1;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  background-color: var(--slate-1000);
+  /* background-color: var(--lime); */
+}
+
+.results-preview-1 .divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--slate-300);
+  opacity: 0.1;
+  /* border-radius: 0.5rem; */
+}
+
+.results-main {
+  padding-top: 0.2rem;
+  border-radius: 0.5rem;
+  background-color: var(--lime);
+  /* opacity: 0.5; */
+}
+
+.results-1 .value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--lime);
+}
+
+.results-2 .value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--white);
 }
